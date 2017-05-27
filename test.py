@@ -2,32 +2,27 @@
 __author__ = 'RobinLin'
 import itchatmp
 import Client
+import admin_config
 
 itchatmp.update_config(itchatmp.WechatConfig(
-    token='robinrush',
-    appId = 'wx652ddcf9dc1b3782',
-    appSecret = '34d0a605a489bd692aef22bb9012c370',
+    token=admin_config.token,
+    appId=admin_config.appId,
+    appSecret=admin_config.appSecret
     ))
 
 @itchatmp.msg_register(itchatmp.content.INCOME_MSG)
 def text_reply(msg):
-    # print(msg)
-    toUserName = msg['FromUserName']
-    content = msg['Content']
-    ret_msg = Client.get_input_command(toUserName, content)
-    return ret_msg
+    print(msg)
+    type = msg['MsgType']
+    if type == 'text':
+        toUserName = msg['FromUserName']
+        content = msg['Content']
+        ret_msg = Client.get_input_command(toUserName, content)
+        return ret_msg
+    return ''
 
 try:
-    # import itchat
-    # itchat.auto_login(True)
-    # list = itchat.search_friends(name='xxxman')
-    # print(list)
-    # robin = list[0]
-    # print(robin)
-    # uid = robin['UserName']
-    # itchat.send('hello', uid)
     itchatmp.run()
 except:
     import os
     os.system('TASKKILL /F /IM python.exe"')
-    # itchatmp.run()
