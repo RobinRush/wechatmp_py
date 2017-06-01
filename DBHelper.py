@@ -12,14 +12,16 @@ class Member:
         self.wechat_id = None
         self.card_type = 1
         self.balance = 0.0
+        self.exp = 0.0
 
     def to_value(self):
         ret_value = (
             self.user_name,
             self.mobile,
+            self.wechat_id,
             self.card_type,
             self.balance,
-            self.wechat_id
+            self.exp,
         )
         return ret_value
 
@@ -33,9 +35,10 @@ class helper():
                       id INTEGER PRIMARY KEY AUTOINCREMENT,
                        user_name TEXT,
                        mobile TEXT UNIQUE,
+                       wechat_id TEXT UNIQUE,
                        card_type INT,
                        balance REAL,
-                       wechat_id TEXT UNIQUE
+                       exp REAL
                        )''')
         conn.commit()
         conn.close()
