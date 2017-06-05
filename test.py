@@ -10,7 +10,7 @@ itchatmp.update_config(itchatmp.WechatConfig(
     appSecret=admin_config.appSecret
     ))
 
-@itchatmp.msg_register(itchatmp.content.INCOME_MSG)
+@itchatmp.msg_register(itchatmp.content.TEXT)
 def text_reply(msg):
     print(msg)
     type = msg['MsgType']
@@ -21,8 +21,5 @@ def text_reply(msg):
         return ret_msg
     return ''
 
-try:
-    itchatmp.run()
-except:
-    import os
-    os.system('TASKKILL /F /IM python.exe"')
+itchatmp.run()
+

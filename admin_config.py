@@ -18,4 +18,4 @@ appSecret = 'e04ee7a05acf337f88917d1a7f4061f2'
 '''
 
 admin_phone_list = ['15858273511', '17091609800']
-admin_list = ['omeKFjqE8KOK1vEpG3eAdAbJzJZY']
+admin_list = ['omeKFjqE8KOK1vEpG3eAdAbJzJZY','oQSYGwA5V7e68itjaUFefddU7bgM']
