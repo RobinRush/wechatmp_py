@@ -44,6 +44,7 @@ def save_users():
 def query_wechat():
     return users_wechat
 
+# public
 def add_user( member):
     wx_id = member.wechat_id
     mobile = member.mobile
@@ -56,6 +57,7 @@ def add_user( member):
     save_users()
     return True
 
+# public
 def is_exsit(user_id):
     if users_wechat.get(user_id) is not None:
         return True
@@ -63,9 +65,11 @@ def is_exsit(user_id):
         return True
     return False
 
+# public
 def get_user(user_id):
     return users_wechat.get(user_id)
 
+# public
 def get_user_balance( user_id):
     user = get_user(user_id)
     return user.balance
@@ -79,11 +83,13 @@ def set_user_balance(user_id, balance):
     users_wechat[mobile] = user
     save_users()
 
+# public
 def charge(user_id, money):
     now_bala = get_user_balance(user_id)
     set_user_balance(user_id, now_bala+money)
     add_exp(user_id, money)
 
+# public
 def cost(user_id, money):
     now_bala = get_user_balance(user_id)
     set_user_balance(user_id, now_bala-money)
@@ -102,6 +108,7 @@ def set_user_exp(user_id, exp):
     users_wechat[mobile] = user
     save_users()
 
+# public
 def add_exp(user_id, exp):
     now_exp = get_user_exp(user_id)
     set_user_exp(user_id, now_exp+exp)
