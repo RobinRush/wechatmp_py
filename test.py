@@ -10,15 +10,20 @@ itchatmp.update_config(itchatmp.WechatConfig(
     appSecret=admin_config.appSecret
     ))
 
-@itchatmp.msg_register(itchatmp.content.TEXT)
+@itchatmp.msg_register(itchatmp.content.INCOME_MSG)
 def text_reply(msg):
-    print(msg)
     type = msg['MsgType']
     if type == 'text':
+        print(msg)
         toUserName = msg['FromUserName']
         content = msg['Content']
         ret_msg = Client.get_input_command(toUserName, content)
         return ret_msg
+    elif type == 'event':
+        print(msg)
+        content = msg['Event']
+        if content == 'subscribe':
+            return '欢迎关注【水帘洞】公众号，可以输入【指令】查看可以玩的内容。'
     return ''
 
 itchatmp.run()

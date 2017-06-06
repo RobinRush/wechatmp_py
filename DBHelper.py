@@ -3,7 +3,7 @@ __author__ = 'RobinLin'
 import sqlite3
 import time
 from functools import wraps, partial
-
+import DBHelper_log
 
 class Member:
     def __init__(self):
@@ -53,9 +53,8 @@ _conn.close()
 
 
 # public
-def add_member(member):
+def add_user(member):
     conn = sqlite3.connect("data.db")
-    print(conn)
     c = conn.cursor()
     try:
         c.execute("INSERT INTO user_account VALUES (?, ?, ?, ?, ?, ?, ?)", member.to_value())
@@ -121,27 +120,33 @@ def _update_user(user):
     conn.close()
     return
 
-# public
+# public IMPORTANT
 def charge(user_id, money):
     user = get_user(user_id)
     user.balance += money
     user.exp += money
     _update_user(user)
+    log_action = '充值'
+    DBHelper_log.add_action(log_action, money, user.user_name, user.mobile, user.wechat_id)
     return
 # charge('bac', 10)
 
-# public
+# public IMPORTANT
 def cost(user_id, money):
     user = get_user(user_id)
     user.balance -= money
     user.exp += money
     _update_user(user)
+    log_action = '消费'
+    DBHelper_log.add_action(log_action, money, user.user_name, user.mobile, user.wechat_id)
     return
 
 
-# public
+# public IMPORTANT
 def add_exp(user_id, exp):
     user = get_user(user_id)
     user.exp += exp
     _update_user(user)
+    log_action = '积分变更'
+    DBHelper_log.add_action(log_action, exp, user.user_name, user.mobile, user.wechat_id)
     return
