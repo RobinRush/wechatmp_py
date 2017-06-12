@@ -1,6 +1,7 @@
 # coding=gbk
 __author__ = 'RobinLin'
 import DBHelper
+import admin_config
 
 user_action_map = {}
 
@@ -40,12 +41,17 @@ def cost(user_id, msg, ret_msg):
         cost_value = float(msg)
         now_bala = DBHelper.get_user_balance(user_id)
         if cost_value > now_bala:
-            ret_msg[0] = 'oops...余额不足，消费失败\n余额：{}\n请联系猴王充值：17091609800，微信号：zhongdadan'.format(now_bala)
+            ret_msg[0] = 'oops...余额不足，消费失败\n余额：{}\n请联系猴王充值：17091609800，微信号：zhongdadan'.format('%.2f' % now_bala)
             user_action_map[user_id] = 0
             return True
         DBHelper.cost(user_id, cost_value)
-        bala = DBHelper.get_user_balance(user_id)
-        ret_msg[0] = '消费成功，增加{}点经验值！\n欢迎下次光临\n余额：{}'.format(cost_value, bala)
         user_action_map[user_id] = 0
+        user = DBHelper.get_user(user_id)
+        ret_msg[0] = '消费成功，增加{}点经验值！\n欢迎下次光临\n余额：{}\n经验值：{}'.format(cost_value, '%.2f' % user.balance, user.exp)
+        import itchat
+        ret_list = itchat.search_friends(admin_config.admin_name)
+        if len(ret_list) > 0:
+            user_name = ret_list[0]['UserName']
+            itchat.send_msg('顾客{}消费了{}金额。\n余额：{}\n经验值：{}'.format(user.mobile, cost_value, '%.2f' % user.balance, user.exp), user_name)
         return True
     return False

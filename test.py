@@ -1,5 +1,6 @@
 # coding=utf-8
 __author__ = 'RobinLin'
+import itchat
 import itchatmp
 import Client
 import admin_config
@@ -26,5 +27,6 @@ def text_reply(msg):
             return '欢迎关注【水帘洞】公众号，可以输入【指令】查看可以玩的内容。'
     return ''
 
+itchat.auto_login(True)
 itchatmp.run()
 
