@@ -120,6 +120,11 @@ def _update_user(user):
     conn.close()
     return
 
+
+# public
+def update_user(user):
+    _update_user(user)
+
 # public IMPORTANT
 def charge(user_id, money):
     user = get_user(user_id)

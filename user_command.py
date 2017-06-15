@@ -55,3 +55,28 @@ def cost(user_id, msg, ret_msg):
             itchat.send_msg('顾客{}消费了{}金额。\n余额：{}\n经验值：{}'.format(user.mobile, cost_value, '%.2f' % user.balance, user.exp), user_name)
         return True
     return False
+
+
+def set_mobile(user_id, msg, ret_msg):
+    if msg.find('修改手机号') == 0:
+        user_action_map[user_id] = 2001
+        ret_msg[0] = '你要更改你的手机号吗？'
+        return True
+    elif user_action_map.get(user_id) is not None and user_action_map.get(user_id) == 2001:
+        # 正在输入手机号
+        try:
+            int(msg)
+        except:
+            ret_msg[0] = '出错，请重新输入您的手机号'
+            return True
+        if DBHelper.is_exsit(msg):
+            ret_msg[0] = '该手机号已被注册，如果确认是你的手机，请联系掌柜：17091609800，微信号：zhongdadan'
+            user_action_map[user_id] = 0
+            return True
+        user = DBHelper.get_user(user_id)
+        user.mobile = msg
+        DBHelper.update_user(user)
+        ret_msg[0] = '更新成功，您当前的手机号为：{}'.format(msg)
+        user_action_map[user_id] = 0
+        return True
+    return False

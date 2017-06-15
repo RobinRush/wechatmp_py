@@ -11,6 +11,7 @@ itchatmp.update_config(itchatmp.WechatConfig(
     appSecret=admin_config.appSecret
     ))
 
+
 @itchatmp.msg_register(itchatmp.content.INCOME_MSG)
 def text_reply(msg):
     type = msg['MsgType']
